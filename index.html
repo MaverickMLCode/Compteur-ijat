@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compteur d’IJAT du 32/7</title>
+
+<style>
+/* -----------------------
+   MODE CLAIR / SOMBRE
+------------------------ */
+:root {
+    --bg: #f4f4f4;
+    --card: #ffffff;
+    --text: #222;
+    --accent: #1a7;
+    --subtext: #666;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #121212;
+        --card: #1e1e1e;
+        --text: #eee;
+        --accent: #4cd964;
+        --subtext: #aaa;
+    }
+}
+
+/* -----------------------
+   STYLE GLOBAL
+------------------------ */
+body {
+    font-family: system-ui, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 700px;
+    margin: 25px auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.08);
+    transition: transform .2s;
+}
+
+.card:hover {
+    transform: scale(1.01);
+}
+
+.value {
+    font-weight: bold;
+    color: var(--accent);
+    font-size: 24px;
+    display: inline-block;
+    margin-left: 6px;
+}
+
+.sub {
+    color: var(--subtext);
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Optimisation mobile */
+@media (max-width: 600px) {
+    .value {
+        font-size: 20px;
+    }
+    .card {
+        padding: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>Compteur d’IJAT du 32/7</h1>
+    <p class="sub">Depuis le <span id="startDate"></span></p>
+
+    <div class="card">
+        <h2>Total cumulé</h2>
+        <div class="value" id="total"></div>
+    </div>
+
+    <div class="card">
+        <h2>Détails par unité de temps</h2>
+        <p>Par jour : <span class="value" id="perDay"></span></p>
+        <p>Par heure : <span class="value" id="perHour"></span></p>
+        <p>Par minute : <span class="value" id="perMinute"></span></p>
+        <p>Par seconde : <span class="value" id="perSecond"></span></p>
+    </div>
+
+    <div class="card">
+        <h2>Équivalences amusantes</h2>
+        <p>Cela équivaut à <span class="value" id="cafes"></span> cafés ☕</p>
+        <p>Cela équivaut à <span class="value" id="netflix"></span> abonnements Netflix 📺</p>
+        <p>Cela équivaut à <span class="value" id="autry"></span> paires de Autry 👟</p>
+        <p>Cela équivaut à <span class="value" id="flechettes"></span> bornes à fléchettes 🎯</p>
+    </div>
+
+    <p class="sub">Mise à jour en temps réel</p>
+
+</div>
+
+<script>
+// ------------------------------
+// PARAMÈTRES
+// ------------------------------
+const indemnitéParJour = 46.42;
+const dateDépart = new Date("2025-12-02T00:00:00");
+
+// Équivalences
+const prixCafe = 2;          // €
+const prixNetflix = 13.49;   // €
+const prixAutry = 185;       // €
+const prixBorneFlechettes = 1500; // €
+
+
+// ------------------------------
+// CALCULS
+// ------------------------------
+function update() {
+    const now = new Date();
+    const daysElapsed = (now - dateDépart) / (1000 * 60 * 60 * 24);
+
+    const total = daysElapsed * indemnitéParJour;
+    const perHour = indemnitéParJour / 24;
+    const perMinute = perHour / 60;
+    const perSecond = perMinute / 60;
+
+    document.getElementById("startDate").innerText =
+        dateDépart.toLocaleDateString("fr-FR");
+
+    document.getElementById("total").innerText = total.toFixed(2) + " €";
+    document.getElementById("perDay").innerText = indemnitéParJour.toFixed(2) + " €";
+    document.getElementById("perHour").innerText = perHour.toFixed(4) + " €";
+    document.getElementById("perMinute").innerText = perMinute.toFixed(6) + " €";
+    document.getElementById("perSecond").innerText = perSecond.toFixed(8) + " €";
+
+    document.getElementById("cafes").innerText =
+        (total / prixCafe).toFixed(0);
+
+    document.getElementById("netflix").innerText =
+        (total / prixNetflix).toFixed(1);
+
+    document.getElementById("autry").innerText =
+        (total / prixAutry).toFixed(2);
+
+    document.getElementById("flechettes").innerText =
+        (total / prixBorneFlechettes).toFixed(3);
+}
+
+update();
+setInterval(update, 1000);
+</script>
+
+</body>
+</html>
