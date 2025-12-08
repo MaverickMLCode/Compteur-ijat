@@ -66,7 +66,7 @@ h1 {
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #000000;  /* contour noir */
+    border: 3px solid #000000;
 }
 
 /* -----------------------
@@ -99,7 +99,7 @@ h1 {
     text-align: center;
 }
 
-/* Optimisation mobile */
+/* Mobile */
 @media (max-width: 600px) {
     .value {
         font-size: 20px;
@@ -113,7 +113,7 @@ h1 {
 
 <body>
 
-<!-- Logo en haut -->
+<!-- LOGO -->
 <div class="logo-container">
     <img src="logo.png" alt="Logo" class="logo">
 </div>
@@ -150,12 +150,12 @@ h1 {
 
 <script>
 // ------------------------------
-// PARAMÈTRES
+//   PARAMÈTRES (bases cohérentes)
 // ------------------------------
-const indemnitéParJour = 42; // <-- MODIFIÉ
+const indemnitéParJour = 42; // 100% COHÉRENT
 const dateDépart = new Date("2025-12-02T00:00:00");
 
-// Équivalences
+// Prix de référence
 const prixCafe = 2;
 const prixNetflix = 13.49;
 const prixAutry = 185;
@@ -163,30 +163,49 @@ const prixBorneFlechettes = 1500;
 
 
 // ------------------------------
-// CALCULS
+//      CALCULS EN TEMPS RÉEL
 // ------------------------------
 function update() {
     const now = new Date();
     const daysElapsed = (now - dateDépart) / (1000 * 60 * 60 * 24);
 
     const total = daysElapsed * indemnitéParJour;
+
     const perHour = indemnitéParJour / 24;
     const perMinute = perHour / 60;
     const perSecond = perMinute / 60;
 
+    // Affichage
     document.getElementById("startDate").innerText =
         dateDépart.toLocaleDateString("fr-FR");
 
-    document.getElementById("total").innerText = total.toFixed(2) + " €";
-    document.getElementById("perDay").innerText = indemnitéParJour.toFixed(2) + " €";
-    document.getElementById("perHour").innerText = perHour.toFixed(4) + " €";
-    document.getElementById("perMinute").innerText = perMinute.toFixed(6) + " €";
-    document.getElementById("perSecond").innerText = perSecond.toFixed(8) + " €";
+    document.getElementById("total").innerText =
+        total.toFixed(2) + " €";
 
-    document.getElementById("cafes").innerText = (total / prixCafe).toFixed(0);
-    document.getElementById("netflix").innerText = (total / prixNetflix).toFixed(1);
-    document.getElementById("autry").innerText = (total / prixAutry).toFixed(2);
-    document.getElementById("flechettes").innerText = (total / prixBorneFlechettes).toFixed(3);
+    document.getElementById("perDay").innerText =
+        indemnitéParJour.toFixed(2) + " €";
+
+    document.getElementById("perHour").innerText =
+        perHour.toFixed(4) + " €";
+
+    document.getElementById("perMinute").innerText =
+        perMinute.toFixed(6) + " €";
+
+    document.getElementById("perSecond").innerText =
+        perSecond.toFixed(8) + " €";
+
+    // Équivalences
+    document.getElementById("cafes").innerText =
+        (total / prixCafe).toFixed(0);
+
+    document.getElementById("netflix").innerText =
+        (total / prixNetflix).toFixed(1);
+
+    document.getElementById("autry").innerText =
+        (total / prixAutry).toFixed(2);
+
+    document.getElementById("flechettes").innerText =
+        (total / prixBorneFlechettes).toFixed(3);
 }
 
 update();
